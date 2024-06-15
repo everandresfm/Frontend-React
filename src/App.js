@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import MenuPrincipal from './components/MenuPrincipal';
 import Inscripcion from './components/InscripcionForm';
-import Administracion from './components/Administracion';
+//import Administracion from './components/Administracion';
 import RegistroAlumno from './components/RegistroAlumno';
 import RegistroEncargado from './components/RegistroEncargado';
 import RegistroCurso from './components/RegistroCurso';
@@ -15,15 +15,11 @@ function App() {
       <div className="App">
         <nav>
           <ul>
-            <li>
-              <Link to="/">Menu Principal</Link>
-            </li>
+           
             <li>
               <Link to="/inscripcion">Inscripción</Link>
             </li>
-            <li>
-              <Link to="/administracion">Administración</Link>
-            </li>
+      
             <li>
               <Link to="/registro-alumno">Registro de Alumnos</Link>
             </li>
@@ -42,7 +38,7 @@ function App() {
         <Routes>
           <Route path="/" element={<MenuPrincipal />} />
           <Route path="/inscripcion" element={<Inscripcion />} />
-          <Route path="/administracion" element={<Administracion />} />
+         
           <Route path="/registro-alumno" element={<RegistroAlumno />} />
           <Route path="/registro-encargado" element={<RegistroEncargado />} />
           <Route path="/registro-curso" element={<RegistroCurso />} />

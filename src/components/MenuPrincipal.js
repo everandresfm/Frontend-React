@@ -4,8 +4,8 @@ import React from 'react';
 const MenuPrincipal = () => {
   return (
     <div className="page">
-      <h1>Menu Principal</h1>
-      <p>Bienvenido al Centro Educativo Paraguay-Brasil (CEPB).</p>
+    
+      <h1>Bienvenido al Centro Educativo Paraguay-Brasil (CEPB).</h1>
     </div>
   );
 };

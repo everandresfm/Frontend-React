@@ -1,8 +1,9 @@
+
 import React, { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 
-const InscripcionForm = ({ inscripcion, setIsEditing }) => {
+const InscripcionForm = () => {
   const [formData, setFormData] = useState({
     idEncargado: '',
     idAlumno: '',
@@ -10,9 +11,9 @@ const InscripcionForm = ({ inscripcion, setIsEditing }) => {
     estado: 'PENDIENTE DE PAGO',
     numeroCuenta: '',
     fechaContrato: '',
-    idCurso: '',  
-    cedulaEncargado: '', 
-    cedulaAlumno: ''     
+    idCurso: '',  // Estado para el ID del curso seleccionado
+    cedulaEncargado: '', // Campo para búsqueda por cédula de encargado
+    cedulaAlumno: ''     // Campo para búsqueda por cédula de alumno
   });
 
   const [encargados, setEncargados] = useState([]);
@@ -38,22 +39,6 @@ const InscripcionForm = ({ inscripcion, setIsEditing }) => {
     fetchData();
   }, []);
 
-  useEffect(() => {
-    if (inscripcion) {
-      setFormData({
-        idEncargado: inscripcion.idEncargado,
-        idAlumno: inscripcion.idAlumno,
-        fechaInscripcion: inscripcion.fechaInscripcion,
-        estado: inscripcion.estado,
-        numeroCuenta: inscripcion.numeroCuenta,
-        fechaContrato: inscripcion.fechaContrato,
-        idCurso: inscripcion.idCurso,
-        cedulaEncargado: '',
-        cedulaAlumno: ''
-      });
-    }
-  }, [inscripcion]);
-
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -74,23 +59,24 @@ const InscripcionForm = ({ inscripcion, setIsEditing }) => {
     };
 
     try {
-      if (inscripcion) {
-        await axios.put(`http://localhost:8000/inscripciones/${inscripcion.idInscripcion}`, payload);
-        Swal.fire({
-          icon: 'success',
-          title: '¡Éxito!',
-          text: '¡Inscripción actualizada correctamente!',
-        });
-      } else {
-        await axios.post('http://localhost:8000/inscripciones/', payload);
-        Swal.fire({
-          icon: 'success',
-          title: '¡Éxito!',
-          text: '¡Inscripción realizada correctamente!',
-        });
-      }
+      await axios.post('http://localhost:8000/inscripciones/', payload);
+      Swal.fire({
+        icon: 'success',
+        title: '¡Éxito!',
+        text: '¡Inscripción realizada correctamente!',
+      });
 
-      setIsEditing(false);
+      setFormData({
+        idEncargado: '',
+        idAlumno: '',
+        fechaInscripcion: '',
+        estado: 'PENDIENTE DE PAGO',
+        numeroCuenta: '',
+        fechaContrato: '',
+        idCurso: '',
+        cedulaEncargado: '',
+        cedulaAlumno: ''
+      });
     } catch (error) {
       console.error('Error registrando la inscripción:', error);
       Swal.fire({
@@ -102,11 +88,39 @@ const InscripcionForm = ({ inscripcion, setIsEditing }) => {
   };
 
   const buscarEncargadosPorCedula = async () => {
-    // Implementación de búsqueda por cédula de encargado
+    try {
+      const response = await axios.get(`http://localhost:8000/encargados/buscar?cedula=${formData.cedulaEncargado}`);
+      const encargadoEncontrado = response.data[0];
+
+      if (encargadoEncontrado) {
+        setFormData(prevState => ({
+          ...prevState,
+          idEncargado: encargadoEncontrado.idEncargado,
+        }));
+      } else {
+        console.error('No se encontró ningún encargado con la cédula proporcionada.');
+      }
+    } catch (error) {
+      console.error('Error buscando encargados por cédula:', error);
+    }
   };
 
   const buscarAlumnosPorCedula = async () => {
-    // Implementación de búsqueda por cédula de alumno
+    try {
+      const response = await axios.get(`http://localhost:8000/alumnos/buscarPorCedula?cedula=${formData.cedulaAlumno}`);
+      const alumnoEncontrado = response.data[0];
+
+      if (alumnoEncontrado) {
+        setFormData(prevState => ({
+          ...prevState,
+          idAlumno: alumnoEncontrado.idAlumno,
+        }));
+      } else {
+        console.error('No se encontró ningún alumno con la cédula proporcionada.');
+      }
+    } catch (error) {
+      console.error('Error buscando alumnos por cédula:', error);
+    }
   };
 
   const handleBuscarEncargado = async () => {
@@ -115,10 +129,6 @@ const InscripcionForm = ({ inscripcion, setIsEditing }) => {
 
   const handleBuscarAlumno = async () => {
     await buscarAlumnosPorCedula();
-  };
-
-  const handleCancel = () => {
-    setIsEditing(false);
   };
 
   return (
@@ -261,17 +271,14 @@ const InscripcionForm = ({ inscripcion, setIsEditing }) => {
             <option value="">Seleccione un curso</option>
             {cursos.map(curso => (
               <option key={curso.idCur} value={curso.idCur}>
-                {curso.curso}
+                {curso.curso}  {/* Asegúrate de usar el nombre correcto del campo del curso */}
               </option>
             ))}
-          </select>
+                  </select>
         </div>
 
         <div className="form-group">
-          <button type="submit" className="btn btn-primary mr-2">{inscripcion ? 'Guardar Cambios' : 'Enviar'}</button>
-          {inscripcion && (
-            <button type="button" className="btn btn-secondary" onClick={handleCancel}>Cancelar</button>
-          )}
+          <button type="submit" className="btn btn-primary mt-3">Enviar</button>
         </div>
       </form>
     </div>
@@ -279,3 +286,5 @@ const InscripcionForm = ({ inscripcion, setIsEditing }) => {
 };
 
 export default InscripcionForm;
+
+       
