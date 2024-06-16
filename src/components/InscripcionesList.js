@@ -41,17 +41,65 @@ const InscripcionesList = () => {
       const contratoWindow = window.open('', 'Contrato de Inscripción', 'height=600,width=800');
       if (contratoWindow) {
         contratoWindow.document.write(`<html><head><title>Contrato de Inscripción</title></head><body>`);
-        contratoWindow.document.write(`<h2>Contrato de Inscripción</h2>`);
-        contratoWindow.document.write(`<p><strong>ID:</strong> ${inscripcion.idInscripcion}</p>`);
-        contratoWindow.document.write(`<p><strong>Encargado:</strong> ${inscripcion.encargado.nombre} ${inscripcion.encargado.apellido}</p>`);
-        contratoWindow.document.write(`<p><strong>Alumno:</strong> ${inscripcion.alumno.nombre} ${inscripcion.alumno.apellido}</p>`);
-        contratoWindow.document.write(`<p><strong>Curso:</strong> ${inscripcion.curso.curso}</p>`);
-        contratoWindow.document.write(`<p><strong>Fecha de Inscripción:</strong> ${inscripcion.fechaInscripcion}</p>`);
-        contratoWindow.document.write(`<p><strong>Estado:</strong> ${inscripcion.estado}</p>`);
-        contratoWindow.document.write(`<p><strong>Número de Cuenta:</strong> ${inscripcion.numeroCuenta}</p>`);
-        contratoWindow.document.write(`<p><strong>Fecha de Contrato:</strong> ${inscripcion.fechaContrato}</p>`);
-        contratoWindow.document.write(`<p><strong>Matrícula:</strong> ${inscripcion.curso.curMatricula}</p>`);
-        contratoWindow.document.write(`<p><strong>Cuota:</strong> ${inscripcion.curso.curCuota}</p>`);
+        contratoWindow.document.write(`<h2>CONTRATO DE INSCRIPCIÓN</h2>`);
+        contratoWindow.document.write(`<p>Entre:</p>`);
+        contratoWindow.document.write(`<p><strong>Centro Educativo Paraguay-Brasil (CEPB)</strong>, con domicilio en San Lorenzo, representado por Guillermo Osorio, en adelante "el Colegio".</p>`);
+        contratoWindow.document.write(`<p>Y:</p>`);
+        contratoWindow.document.write(`<p><strong>${inscripcion.encargado.nombre} ${inscripcion.encargado.apellido}</strong>, con domicilio en ${inscripcion.encargado.direccion}, portador del documento de identidad número ${inscripcion.encargado.cedula ? inscripcion.encargado.cedula : 'N/A'}, en adelante "el Tutor".</p>`);
+        contratoWindow.document.write(`<hr>`);
+        contratoWindow.document.write(`<p><strong>ACUERDAN:</strong></p>`);
+        contratoWindow.document.write(`<p><strong>1. Objeto del Contrato</strong></p>`);
+        contratoWindow.document.write(`<p>El presente contrato tiene por objeto establecer los términos y condiciones bajo los cuales el Centro Educativo Paraguay-Brasil (CEPB) acepta la inscripción del estudiante ${inscripcion.alumno.nombre} ${inscripcion.alumno.apellido}, en adelante "el Estudiante", para el año lectivo ${inscripcion.curso.curAño}.</p>`);
+        contratoWindow.document.write(`<p><strong>2. Información del Estudiante</strong></p>`);
+        contratoWindow.document.write(`<ul>`);
+        contratoWindow.document.write(`<li>Nombre completo: ${inscripcion.alumno.nombre} ${inscripcion.alumno.apellido}</li>`);
+        contratoWindow.document.write(`<li>Fecha de nacimiento: ${inscripcion.alumno.fechaNacimiento}</li>`);
+        contratoWindow.document.write(`<li>Dirección: ${inscripcion.alumno.direccion}</li>`);
+        contratoWindow.document.write(`<li>Número de identidad: ${inscripcion.alumno.cedula}</li>`); // Asumo que `numeroContactoUno` es el número de identidad del alumno, cambiar si es incorrecto
+        contratoWindow.document.write(`</ul>`);
+        contratoWindow.document.write(`<p><strong>3. Servicios Educativos</strong></p>`);
+        contratoWindow.document.write(`<p>El Colegio se compromete a proporcionar al Estudiante una educación de calidad conforme al plan de estudios aprobado por las autoridades educativas competentes.</p>`);
+        contratoWindow.document.write(`<p><strong>4. Duración del Contrato</strong></p>`);
+        contratoWindow.document.write(`<p>El presente contrato tendrá una duración de un año lectivo, comenzando el ${inscripcion.fechaInscripcion} y finalizando el ${inscripcion.fechaContrato}.</p>`); // Cambiar fechas si son incorrectas
+        contratoWindow.document.write(`<p><strong>5. Cuotas y Pagos</strong></p>`);
+        contratoWindow.document.write(`<ul>`);
+        contratoWindow.document.write(`<li>El Tutor se compromete a pagar al Colegio la suma de ${inscripcion.curso.curMatricula} por concepto de matrícula y ${inscripcion.curso.curCuota} por concepto de mensualidades.</li>`);
+        contratoWindow.document.write(`<li>Los pagos se realizarán de la siguiente manera: [Especificar modalidad y fechas de pago].</li>`); // Aquí deberías especificar la modalidad y fechas de pago según tus políticas.
+        contratoWindow.document.write(`</ul>`);
+        contratoWindow.document.write(`<p>El Colegio proporcionará un número de cuenta para la realización de los pagos.</p>`);
+        contratoWindow.document.write(`<p><strong>6. Obligaciones del Tutor</strong></p>`);
+        contratoWindow.document.write(`<ul>`);
+        contratoWindow.document.write(`<li>El Tutor se compromete a cumplir con todas las obligaciones económicas estipuladas en el presente contrato.</li>`);
+        contratoWindow.document.write(`<li>El Tutor deberá asegurar la asistencia del Estudiante a las clases y actividades programadas por el Colegio.</li>`);
+        contratoWindow.document.write(`<li>El Tutor se compromete a respetar el reglamento interno del Colegio y a fomentar el cumplimiento del mismo por parte del Estudiante.</li>`);
+        contratoWindow.document.write(`</ul>`);
+        contratoWindow.document.write(`<p><strong>7. Obligaciones del Colegio</strong></p>`);
+        contratoWindow.document.write(`<ul>`);
+        contratoWindow.document.write(`<li>El Colegio se compromete a proporcionar al Estudiante una educación integral de acuerdo con los planes y programas establecidos.</li>`);
+        contratoWindow.document.write(`<li>El Colegio se compromete a mantener informado al Tutor sobre el desempeño académico y comportamental del Estudiante.</li>`);
+        contratoWindow.document.write(`</ul>`);
+        contratoWindow.document.write(`<p><strong>8. Rescisión del Contrato</strong></p>`);
+        contratoWindow.document.write(`<ul>`);
+        contratoWindow.document.write(`<li>El contrato podrá ser rescindido por mutuo acuerdo entre las partes.</li>`);
+        contratoWindow.document.write(`<li>El Colegio podrá rescindir el contrato en caso de incumplimiento de las obligaciones económicas por parte del Tutor o en caso de comportamiento grave que afecte el ambiente educativo.</li>`);
+        contratoWindow.document.write(`<li>El Tutor podrá rescindir el contrato notificando por escrito al Colegio con ${inscripcion.curso.curEspeci} días de antelación.</li>`); // Cambiar días de rescisión si es necesario
+        contratoWindow.document.write(`</ul>`);
+        contratoWindow.document.write(`<p><strong>9. Cláusulas Adicionales</strong></p>`);
+        contratoWindow.document.write(`<ul>`);
+        contratoWindow.document.write(`<li>Cualquier modificación al presente contrato deberá ser realizada por escrito y firmada por ambas partes.</li>`);
+        contratoWindow.document.write(`<li>En caso de controversia, las partes se someten a la jurisdicción de los tribunales de [Ciudad].</li>`); // Cambiar ciudad si es necesario
+        contratoWindow.document.write(`</ul>`);
+        contratoWindow.document.write(`<p><strong>10. Firmas</strong></p>`);
+        contratoWindow.document.write(`<p>En señal de conformidad, las partes firman el presente contrato en [Ciudad], a los [Día] días del mes de [Mes] del año [Año].</p>`); // Cambiar ciudad y fecha si es necesario
+        contratoWindow.document.write(`<br/><br/>`);
+        contratoWindow.document.write(`<div style="text-align: center;">`);
+        contratoWindow.document.write(`______________________________<br/>`);
+        contratoWindow.document.write(`Firma del Representante del Colegio<br/>`);
+        contratoWindow.document.write(`${inscripcion.representanteColegio}<br/><br/>`);
+        contratoWindow.document.write(`______________________________<br/>`);
+        contratoWindow.document.write(`Firma del Tutor<br/>`);
+        contratoWindow.document.write(`${inscripcion.encargado.nombre} ${inscripcion.encargado.apellido}<br/>`);
+        contratoWindow.document.write(`</div>`);
         contratoWindow.document.write(`</body></html>`);
         contratoWindow.document.close();
         contratoWindow.print();
@@ -115,3 +163,4 @@ const InscripcionesList = () => {
 };
 
 export default InscripcionesList;
+
